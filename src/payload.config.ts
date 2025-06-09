@@ -13,6 +13,8 @@ import { Product } from './collections/Product'
 import { Order } from './collections/Order'
 import { HomePage } from './app/globals/HomePage'
 import { Transaction } from './collections/Transaction'
+import { Request } from './collections/Request'
+import { Comments } from './collections/Comments'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -24,7 +26,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Product, Order,Transaction],
+  collections: [Users, Media, Product, Order,Transaction,Request,Comments],
     globals: [HomePage],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
