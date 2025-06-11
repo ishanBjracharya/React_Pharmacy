@@ -3,6 +3,7 @@ import './styles.css'
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "../../app/api/uploadthing/core";
+import Link from 'next/link';
 
 export const metadata = {
   description: 'A blank template using Payload in a Next.js app.',
@@ -12,12 +13,12 @@ export const metadata = {
 function Navbar() {
   return (
     <nav className="w-full bg-blue-700 text-white px-6 py-4 flex items-center justify-between shadow">
-      <a href="/" className="font-bold text-xl tracking-wide">Pharmacy Delivery</a>
+      <Link href="/" className="font-bold text-xl tracking-wide">Pharmacy Delivery</Link>
       <div className="space-x-6">
-        <a href="/products" className="hover:underline">Products</a>
-        <a href="/cart" className="hover:underline">Cart</a>
-        <a href="/viewOrder" className="hover:underline">My Orders</a>
-        <a href="/login" className="hover:underline">Login</a>
+        <Link href="/products" className="hover:underline">Products</Link>
+        <Link href="/cart" className="hover:underline">Cart</Link>
+        <Link href="/viewOrder" className="hover:underline">My Orders</Link>
+        <Link href="/login" className="hover:underline">Login</Link>
       </div>
     </nav>
   )

@@ -1,5 +1,7 @@
 'use client'
 
+import Image from 'next/image'
+import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
 type HomePageData = {
@@ -27,10 +29,12 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-br from-blue-50 to-green-100 flex flex-col items-center justify-center px-4">
       <section className="w-full max-w-3xl bg-white rounded-xl shadow-lg p-8 mt-12 mb-8 flex flex-col items-center">
         {data.heroImage && (
-          <img
+          <Image
             src={data.heroImage}
             alt="Hero"
             className="w-full max-w-xs rounded-lg mb-6 shadow"
+            width={600}
+            height={400}
           />
         )}
         <h1 className="text-4xl font-bold text-blue-700 mb-2 text-center">{data.title}</h1>
@@ -43,12 +47,12 @@ export default function Home() {
             dangerouslySetInnerHTML={{ __html: data.content }}
           />
         )}
-        <a
+        <Link
           href="/products"
           className="mt-8 inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg shadow transition"
         >
           Shop Now
-        </a>
+        </Link>
       </section>
       <footer className="text-gray-500 text-sm mt-auto mb-4">
         &copy; {new Date().getFullYear()} Pharmacy Delivery. All rights reserved.

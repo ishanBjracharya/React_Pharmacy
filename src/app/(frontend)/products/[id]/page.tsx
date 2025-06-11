@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
+import Image from 'next/image'
 
 type Product = {
   id: string
@@ -81,7 +82,10 @@ export default function ProductDetailPage() {
       )}
       {product.image && (
         <div>
-          <img src={product.image} alt={product.name} style={{ maxWidth: 300 }} />
+          <Image src={product.image} alt={product.name} style={{ maxWidth: 300 }}
+          width={600}
+          height={400} className="rounded-lg shadow-lg"
+          />
         </div>
       )}
       <button onClick={handleAddToCart} disabled={added} style={{ marginTop: 16 }}>
