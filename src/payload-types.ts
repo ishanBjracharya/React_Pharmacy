@@ -238,7 +238,7 @@ export interface Transaction {
  */
 export interface Request {
   id: string;
-  requestNumber: string;
+  requestName: string;
   photo: string;
   description?: {
     root: {
@@ -456,7 +456,7 @@ export interface TransactionsSelect<T extends boolean = true> {
  * via the `definition` "requests_select".
  */
 export interface RequestsSelect<T extends boolean = true> {
-  requestNumber?: T;
+  requestName?: T;
   photo?: T;
   description?: T;
   status?: T;
