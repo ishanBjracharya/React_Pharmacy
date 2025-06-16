@@ -3,25 +3,13 @@ import './styles.css'
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "../../app/api/uploadthing/core";
+import Navbar from './compoentns/Navbar/navbar';
 
 export const metadata = {
   description: 'A blank template using Payload in a Next.js app.',
   title: 'Payload Blank Template',
 }
 
-function Navbar() {
-  return (
-    <nav className="w-full bg-blue-700 text-white px-6 py-4 flex items-center justify-between shadow">
-      <a href="/" className="font-bold text-xl tracking-wide">Pharmacy Delivery</a>
-      <div className="space-x-6">
-        <a href="/products" className="hover:underline">Products</a>
-        <a href="/cart" className="hover:underline">Cart</a>
-        <a href="/viewOrder" className="hover:underline">My Orders</a>
-        <a href="/login" className="hover:underline">Login</a>
-      </div>
-    </nav>
-  )
-}
 
 function Footer() {
   return (
