@@ -1,7 +1,8 @@
 'use client'
 
 import { useForm, SubmitHandler } from 'react-hook-form'
-import React from 'react'
+import React, { useState } from 'react'
+import { UploadButton } from '@/utils/uploadthing'
 
 type Inputs = {
   requestName: string
@@ -14,24 +15,37 @@ export default function PutRequestPage() {
   const { register, handleSubmit, reset } = useForm<Inputs>()
   const [message, setMessage] = React.useState('')
   const [submitting, setSubmitting] = React.useState(false)
+  const [imageUrl, setImageUrl] = useState<string>('')
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setSubmitting(true)
     setMessage('')
+
+    // Use imageUrl for photo field
+    const payload = {
+      requestName: data.requestName,
+      photo: imageUrl, // use imageUrl, not data.photo
+      description: data.description,
+      status: data.status,
+    }
+
+    // Check for empty fields
+    if (!payload.requestName || !payload.photo || !payload.description || !payload.status) {
+      setMessage('All fields are required.')
+      setSubmitting(false)
+      return
+    }
+
     try {
       const res = await fetch('http://localhost:3000/api/requests', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          requestName: data.requestName,
-          photo: data.photo,
-          description: data.description,
-          status: data.status,
-        }),
+        body: JSON.stringify(payload),
       })
       if (res.ok) {
         setMessage('Request submitted successfully!')
         reset()
+        setImageUrl('')
       } else {
         setMessage('Failed to submit request.')
       }
@@ -51,12 +65,23 @@ export default function PutRequestPage() {
           required
           className="border rounded px-2 py-1 w-full"
         />
-        <input
-          {...register('photo')}
-          placeholder="Photo URL"
-          required
-          className="border rounded px-2 py-1 w-full"
+        <UploadButton
+          endpoint="imageUploader"
+          onClientUploadComplete={(res) => {
+            setImageUrl(res?.[0]?.url || '')
+            alert('Upload Completed')
+          }}
+          onUploadError={(error) => {
+            alert(`ERROR! ${error.message}`)
+          }}
         />
+        {imageUrl && (
+          <div className="mt-4">
+            <img src={imageUrl} alt="Profile" className="rounded w-40 h-40 object-cover" />
+            <div className="text-xs mt-2 break-all">{imageUrl}</div>
+          </div>
+        )}
+        <input {...register('photo')} value={imageUrl} type="hidden" />
         <input
           {...register('description')}
           placeholder="Description"
