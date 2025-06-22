@@ -1,14 +1,18 @@
 import React from 'react'
 import './styles.css'
+
 import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin'
 import { extractRouterConfig } from 'uploadthing/server'
 import { ourFileRouter } from '../../app/api/uploadthing/core'
 import Navbar from './compoentns/Navbar/Navbar'
 
+
 export const metadata = {
   description: 'A blank template using Payload in a Next.js app.',
   title: 'Payload Blank Template',
 }
+
+
 
 function Footer() {
   return (
