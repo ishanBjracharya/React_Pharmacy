@@ -1,97 +1,74 @@
 'use client'
 
-import React, { useState } from 'react'
-import { UploadButton } from "../../../utils/uploadthing";
-import { ClientUploadedFileData } from 'uploadthing/types';
+import { useForm, SubmitHandler } from 'react-hook-form'
+import React from 'react'
+
+type Inputs = {
+  requestName: string
+  photo: string
+  description: string
+  status: 'pending' | 'in-progress' | 'completed' | 'cancelled'
+}
 
 export default function PutRequestPage() {
-  const [requestNumber, setRequestNumber] = useState('')
-  const [description, setDescription] = useState('')
-  const [photo, setPhoto] = useState<File | null>(null)
-  const [status, setStatus] = useState('pending')
-  const [submitting, setSubmitting] = useState(false)
-  const [message, setMessage] = useState('')
-  // const [data] = useState()
-  const [file, setFile] = useState("")
+  const { register, handleSubmit, reset } = useForm<Inputs>()
+  const [message, setMessage] = React.useState('')
+  const [submitting, setSubmitting] = React.useState(false)
 
- 
-  
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setSubmitting(true)
-  await fetch('/api/requests', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      // If you're using auth, include the token:
-      // 'Authorization': `JWT ${yourToken}`
-    },
-    body: JSON.stringify({
-      requestNumber: 'REQ123',
-      description: 'Need paracetamol 500mg',
-      status: 'pending',
-      // other fields defined in your collection schema
-    }),
+    setMessage('')
+    try {
+      const res = await fetch('http://localhost:3000/api/requests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          requestName: data.requestName,
+          photo: data.photo,
+          description: data.description,
+          status: data.status,
+        }),
+      })
+      if (res.ok) {
+        setMessage('Request submitted successfully!')
+        reset()
+      } else {
+        setMessage('Failed to submit request.')
+      }
+    } catch (error) {
+      setMessage('Error submitting request.')
     }
-   )
-  console.log("dasdasd",file)
+    setSubmitting(false)
+  }
+
   return (
     <main className="max-w-xl mx-auto mt-10 p-6 bg-white rounded shadow text-black">
       <h1 className="text-2xl font-bold mb-4">Put a Request</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block mb-1 font-medium">Request Number</label>
-          <input
-            type="text"
-            value={requestNumber}
-            onChange={e => setRequestNumber(e.target.value)}
-            className="border rounded px-2 py-1 w-full"
-            required
-          />
-        </div>
-        <div>
-          <label className="block mb-1 font-medium">Description</label>
-          <textarea
-            value={description}
-            onChange={e => setDescription(e.target.value)}
-            className="border rounded px-2 py-1 w-full"
-            required
-          />
-        </div>
-        <div>
-          <label className="block mb-1 font-medium">Photo (optional)</label>
-            <UploadButton
-              endpoint="imageUploader"
-              onClientUploadComplete={(respo) => {
-                setFile(respo[0].ufsUrl);
-                alert("Upload Completed");
-              }}
-              onUploadError={(error: Error) => {
-                
-                alert(`ERROR! ${error.message}`);
-              }}
-            />
-        </div>
-                  <textarea
-            value={description}
-
-
-            onChange={e => setDescription(e.target.value)}
-            className="border rounded px-2 py-1 w-full"
-            required
-          />
-        <div>
-          <label className="block mb-1 font-medium">Status</label>
-          <select
-            value={status}
-            onChange={e => setStatus(e.target.value)}
-            className="border rounded px-2 py-1 w-full"
-          >
-            <option value="pending">Pending</option>
-            <option value="open">Open</option>
-            <option value="closed">Closed</option>
-          </select>
-        </div>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <input
+          {...register('requestName')}
+          placeholder="Request Name"
+          required
+          className="border rounded px-2 py-1 w-full"
+        />
+        <input
+          {...register('photo')}
+          placeholder="Photo URL"
+          required
+          className="border rounded px-2 py-1 w-full"
+        />
+        <input
+          {...register('description')}
+          placeholder="Description"
+          required
+          className="border rounded px-2 py-1 w-full"
+        />
+        <select {...register('status')} className="border rounded px-2 py-1 w-full">
+          <option value="pending">Pending</option>
+          <option value="in-progress">In Progress</option>
+          <option value="completed">Completed</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
         <button
           type="submit"
           className="bg-blue-600 text-white px-4 py-2 rounded"

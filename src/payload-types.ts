@@ -240,7 +240,7 @@ export interface Request {
   id: string;
   requestName: string;
   photo: string;
-  description?: {
+  description1?: {
     root: {
       type: string;
       children: {
@@ -255,6 +255,7 @@ export interface Request {
     };
     [k: string]: unknown;
   } | null;
+  description: string;
   status?: ('pending' | 'in-progress' | 'completed' | 'cancelled') | null;
   updatedAt: string;
   createdAt: string;
@@ -458,6 +459,7 @@ export interface TransactionsSelect<T extends boolean = true> {
 export interface RequestsSelect<T extends boolean = true> {
   requestName?: T;
   photo?: T;
+  description1?: T;
   description?: T;
   status?: T;
   updatedAt?: T;
