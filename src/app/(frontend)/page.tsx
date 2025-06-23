@@ -1,7 +1,5 @@
 'use client'
 
-import Image from 'next/image'
-import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
 import {
@@ -20,7 +18,7 @@ import {
   Stethoscope,
   Users,
   Award,
-} from "lucide-react"
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import Image from 'next/image'
@@ -41,88 +39,84 @@ export default function Home() {
 
   useEffect(() => {
     fetch('http://localhost:3000/api/globals/home-page')
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(setData)
       .finally(() => setLoading(false))
   }, [])
 
   if (loading) return <p className="text-center mt-10 text-lg">Loading...</p>
-  if (!data) return <p className="text-center mt-10 text-lg text-red-500">No homepage content found.</p>
+  if (!data)
+    return <p className="text-center mt-10 text-lg text-red-500">No homepage content found.</p>
 
-const featuredProducts = [
+  const featuredProducts = [
     {
       id: 1,
-      name: "Vitamin D3 Supplements",
-      price: "$24.99",
-      originalPrice: "$29.99",
-      image: "/placeholder.svg?height=200&width=200",
+      name: 'Vitamin D3 Supplements',
+      price: '$24.99',
+      originalPrice: '$29.99',
+      image: '/placeholder.svg?height=200&width=200',
       rating: 4.8,
       reviews: 124,
-      badge: "Best Seller",
+      badge: 'Best Seller',
     },
     {
       id: 2,
-      name: "Blood Pressure Monitor",
-      price: "$89.99",
-      originalPrice: "$109.99",
-      image: "/placeholder.svg?height=200&width=200",
+      name: 'Blood Pressure Monitor',
+      price: '$89.99',
+      originalPrice: '$109.99',
+      image: '/placeholder.svg?height=200&width=200',
       rating: 4.9,
       reviews: 89,
-      badge: "New",
+      badge: 'New',
     },
     {
       id: 3,
-      name: "First Aid Kit",
-      price: "$34.99",
-      originalPrice: "$44.99",
-      image: "/placeholder.svg?height=200&width=200",
+      name: 'First Aid Kit',
+      price: '$34.99',
+      originalPrice: '$44.99',
+      image: '/placeholder.svg?height=200&width=200',
       rating: 4.7,
       reviews: 156,
-      badge: "Sale",
+      badge: 'Sale',
     },
     {
       id: 4,
-      name: "Omega-3 Fish Oil",
-      price: "$19.99",
-      originalPrice: "$24.99",
-      image: "/placeholder.svg?height=200&width=200",
+      name: 'Omega-3 Fish Oil',
+      price: '$19.99',
+      originalPrice: '$24.99',
+      image: '/placeholder.svg?height=200&width=200',
       rating: 4.6,
       reviews: 203,
-      badge: "Popular",
+      badge: 'Popular',
     },
   ]
 
   const services = [
     {
       icon: <Pill className="h-8 w-8" />,
-      title: "Prescription Services",
-      description: "Fast and accurate prescription filling with licensed pharmacists",
+      title: 'Prescription Services',
+      description: 'Fast and accurate prescription filling with licensed pharmacists',
     },
     {
       icon: <Truck className="h-8 w-8" />,
-      title: "Free Delivery",
-      description: "Free same-day delivery for orders over $50 in your area",
+      title: 'Free Delivery',
+      description: 'Free same-day delivery for orders over $50 in your area',
     },
     {
       icon: <Stethoscope className="h-8 w-8" />,
-      title: "Health Consultations",
-      description: "Professional health advice and medication counseling",
+      title: 'Health Consultations',
+      description: 'Professional health advice and medication counseling',
     },
     {
       icon: <Clock className="h-8 w-8" />,
-      title: "24/7 Support",
-      description: "Round-the-clock customer support for your health needs",
+      title: '24/7 Support',
+      description: 'Round-the-clock customer support for your health needs',
     },
   ]
 
-
-
-  
-
   return (
-   <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white">
       {/* Navigation */}
-    
 
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-green-50 to-blue-50 py-20">
@@ -130,19 +124,20 @@ const featuredProducts = [
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 items-center">
             <div className="space-y-6">
               <div className="space-y-4">
-                <Badge className="bg-green-100 text-green-800 hover:bg-green-100">Trusted by 50,000+ customers</Badge>
+                <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+                  Trusted by 50,000+ customers
+                </Badge>
                 <h1 className="text-4xl font-bold tracking-tight sm:text-5xl xl:text-6xl">
                   Your Health, Our <span className="text-green-600">Priority</span>
                 </h1>
                 <p className="text-xl text-gray-600 max-w-[600px]">
-                  Get your medications delivered fast and safely. Licensed pharmacists, quality products, and
-                  exceptional service - all at your fingertips.
+                  Get your medications delivered fast and safely. Licensed pharmacists, quality
+                  products, and exceptional service - all at your fingertips.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button size="lg" className="bg-green-600 hover:bg-green-700">
                   Shop Now
-                  
                 </Button>
                 <Button size="lg" variant="outline">
                   Upload Prescription
@@ -182,7 +177,8 @@ const featuredProducts = [
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Featured Products</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Discover our most popular health and wellness products, carefully selected by our licensed pharmacists.
+              Discover our most popular health and wellness products, carefully selected by our
+              licensed pharmacists.
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -191,7 +187,7 @@ const featuredProducts = [
                 <CardHeader className="p-4">
                   <div className="relative">
                     <Image
-                      src={product.image || "/placeholder.svg"}
+                      src={product.image || '/placeholder.svg'}
                       alt={product.name}
                       width={200}
                       height={200}
@@ -211,7 +207,9 @@ const featuredProducts = [
                           <Star
                             key={i}
                             className={`h-4 w-4 ${
-                              i < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"
+                              i < Math.floor(product.rating)
+                                ? 'text-yellow-400 fill-current'
+                                : 'text-gray-300'
                             }`}
                           />
                         ))}
@@ -220,7 +218,9 @@ const featuredProducts = [
                     </div>
                     <div className="flex items-center space-x-2">
                       <span className="text-xl font-bold text-green-600">{product.price}</span>
-                      <span className="text-sm text-gray-500 line-through">{product.originalPrice}</span>
+                      <span className="text-sm text-gray-500 line-through">
+                        {product.originalPrice}
+                      </span>
                     </div>
                     <Button className="w-full bg-green-600 hover:bg-green-700">Add to Cart</Button>
                   </div>
@@ -240,9 +240,9 @@ const featuredProducts = [
                 <Badge className="bg-blue-100 text-blue-800">About MediCare+</Badge>
                 <h2 className="text-3xl font-bold">Trusted Healthcare Partner Since 1995</h2>
                 <p className="text-gray-600 text-lg">
-                  For over 25 years, MediCare+ has been serving communities with reliable pharmaceutical services. We
-                  combine traditional pharmacy values with modern technology to provide you with the best healthcare
-                  experience.
+                  For over 25 years, MediCare+ has been serving communities with reliable
+                  pharmaceutical services. We combine traditional pharmacy values with modern
+                  technology to provide you with the best healthcare experience.
                 </p>
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
@@ -278,7 +278,6 @@ const featuredProducts = [
             </div>
           </div>
         </div>
-
       </section>
 
       {/* Services Section */}
@@ -287,7 +286,8 @@ const featuredProducts = [
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Our Services</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Comprehensive healthcare services designed to meet all your medical needs with convenience and care.
+              Comprehensive healthcare services designed to meet all your medical needs with
+              convenience and care.
             </p>
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -338,7 +338,8 @@ const featuredProducts = [
                 <span className="text-xl font-bold">MediCare+</span>
               </div>
               <p className="text-gray-400">
-                Your trusted healthcare partner, providing quality medications and exceptional service since 1995.
+                Your trusted healthcare partner, providing quality medications and exceptional
+                service since 1995.
               </p>
               <div className="flex space-x-4">
                 <div className="flex items-center space-x-2 text-sm">
@@ -427,5 +428,3 @@ const featuredProducts = [
     </div>
   )
 }
-
-  
