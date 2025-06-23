@@ -24,6 +24,7 @@
     "@tailwindcss/postcss": "^4.1.8",
     "@uploadthing/react": "^7.3.1",
     "cross-env": "^7.0.3",
+    "framer-motion": "^12.18.1",
     "graphql": "^16.8.1",
     "next": "15.3.0",
     "payload": "3.40.0",

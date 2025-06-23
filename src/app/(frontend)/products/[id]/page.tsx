@@ -43,14 +43,12 @@ export default function ProductDetailPage() {
   const handleAddToCart = () => {
     if (!product) return
     const cart = JSON.parse(localStorage.getItem('cart') || '[]')
-    // Check if already in cart
     const exists = cart.find((item: any) => item.id === product.id)
     if (!exists) {
       cart.push({ ...product, quantity: 1 })
       localStorage.setItem('cart', JSON.stringify(cart))
       setAdded(true)
     } else {
-      // Optionally, increase quantity if already in cart
       exists.quantity += 1
       localStorage.setItem('cart', JSON.stringify(cart))
       setAdded(true)
@@ -61,36 +59,54 @@ export default function ProductDetailPage() {
   if (!product) return <p>Product not found.</p>
 
   return (
-    <main>
-      <h1>{product.name}</h1>
-      <p>{product.description}</p>
-      <div>Price: ${product.price}</div>
-      <div>Stock: {product.inStock}</div>
-      {product.brand && <div>Brand: {product.brand}</div>}
-      {product.sku && <div>SKU: {product.sku}</div>}
-      {product.prescriptionRequired && (
-        <div style={{ color: 'red' }}>Prescription Required</div>
-      )}
-      {product.expiryDate && <div>Expiry: {product.expiryDate}</div>}
-      {product.dosageForm && <div>Dosage Form: {product.dosageForm}</div>}
-      {product.strength && <div>Strength: {product.strength}</div>}
-      {product.category && <div>Category: {product.category}</div>}
-      {product.tags && product.tags.length > 0 && (
-        <div>
-          Tags: {product.tags.map(t => t.tag).join(', ')}
+    <main className="max-w-5xl mx-auto p-6">
+      <div className="flex flex-col md:flex-row gap-8">
+        {/* Left: Product Image */}
+        {product.image && (
+          <div className="flex-shrink-0">
+            <Image
+              src={product.image}
+              alt={product.name}
+              width={500}
+              height={500}
+              className="rounded-lg shadow-lg object-contain"
+            />
+          </div>
+        )}
+
+        {/* Right: Product Info */}
+        <div className="flex-1">
+          <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
+          <p className="text-gray-700 mb-4">{product.description}</p>
+
+          <div className="space-y-2 text-gray-800">
+            <div>💵 <strong>Price:</strong> ${product.price}</div>
+            <div>📦 <strong>Stock:</strong> {product.inStock}</div>
+            {product.brand && <div><strong>Brand:</strong> {product.brand}</div>}
+            {product.sku && <div><strong>SKU:</strong> {product.sku}</div>}
+            {product.prescriptionRequired && (
+              <div className="text-red-600 font-semibold">⚠️ Prescription Required</div>
+            )}
+            {product.expiryDate && <div><strong>Expiry:</strong> {product.expiryDate}</div>}
+            {product.dosageForm && <div><strong>Dosage Form:</strong> {product.dosageForm}</div>}
+            {product.strength && <div><strong>Strength:</strong> {product.strength}</div>}
+            {product.category && <div><strong>Category:</strong> {product.category}</div>}
+            {product.tags && product.tags.length > 0 && (
+              <div><strong>Tags:</strong> {product.tags.map(t => t.tag).join(', ')}</div>
+            )}
+          </div>
+
+          <button
+            onClick={handleAddToCart}
+            disabled={added}
+            className={`mt-6 px-6 py-2 rounded-lg text-white font-semibold ${
+              added ? 'bg-green-500 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+            }`}
+          >
+            {added ? '✔ Added to Cart' : '🛒 Add to Cart'}
+          </button>
         </div>
-      )}
-      {product.image && (
-        <div>
-          <Image src={product.image} alt={product.name} style={{ maxWidth: 300 }}
-          width={600}
-          height={400} className="rounded-lg shadow-lg"
-          />
-        </div>
-      )}
-      <button onClick={handleAddToCart} disabled={added} style={{ marginTop: 16 }}>
-        {added ? 'Added to Cart' : 'Add to Cart'}
-      </button>
+      </div>
     </main>
   )
 }
