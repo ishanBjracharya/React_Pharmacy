@@ -1,8 +1,30 @@
 'use client'
 
-import Image from 'next/image'
-import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
+
+import {
+  Heart,
+  Shield,
+  Truck,
+  Clock,
+  Phone,
+  Mail,
+  MapPin,
+  Star,
+  ShoppingCart,
+  Search,
+  Menu,
+  Pill,
+  Stethoscope,
+  Users,
+  Award,
+} from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import Image from 'next/image'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import Link from 'next/link'
 
 type HomePageData = {
   title: string
@@ -17,13 +39,80 @@ export default function Home() {
 
   useEffect(() => {
     fetch('http://localhost:3000/api/globals/home-page')
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(setData)
       .finally(() => setLoading(false))
   }, [])
 
   if (loading) return <p className="text-center mt-10 text-lg">Loading...</p>
-  if (!data) return <p className="text-center mt-10 text-lg text-red-500">No homepage content found.</p>
+  if (!data)
+    return <p className="text-center mt-10 text-lg text-red-500">No homepage content found.</p>
+
+  const featuredProducts = [
+    {
+      id: 1,
+      name: 'Vitamin D3 Supplements',
+      price: '$24.99',
+      originalPrice: '$29.99',
+      image: '/placeholder.svg?height=200&width=200',
+      rating: 4.8,
+      reviews: 124,
+      badge: 'Best Seller',
+    },
+    {
+      id: 2,
+      name: 'Blood Pressure Monitor',
+      price: '$89.99',
+      originalPrice: '$109.99',
+      image: '/placeholder.svg?height=200&width=200',
+      rating: 4.9,
+      reviews: 89,
+      badge: 'New',
+    },
+    {
+      id: 3,
+      name: 'First Aid Kit',
+      price: '$34.99',
+      originalPrice: '$44.99',
+      image: '/placeholder.svg?height=200&width=200',
+      rating: 4.7,
+      reviews: 156,
+      badge: 'Sale',
+    },
+    {
+      id: 4,
+      name: 'Omega-3 Fish Oil',
+      price: '$19.99',
+      originalPrice: '$24.99',
+      image: '/placeholder.svg?height=200&width=200',
+      rating: 4.6,
+      reviews: 203,
+      badge: 'Popular',
+    },
+  ]
+
+  const services = [
+    {
+      icon: <Pill className="h-8 w-8" />,
+      title: 'Prescription Services',
+      description: 'Fast and accurate prescription filling with licensed pharmacists',
+    },
+    {
+      icon: <Truck className="h-8 w-8" />,
+      title: 'Free Delivery',
+      description: 'Free same-day delivery for orders over $50 in your area',
+    },
+    {
+      icon: <Stethoscope className="h-8 w-8" />,
+      title: 'Health Consultations',
+      description: 'Professional health advice and medication counseling',
+    },
+    {
+      icon: <Clock className="h-8 w-8" />,
+      title: '24/7 Support',
+      description: 'Round-the-clock customer support for your health needs',
+    },
+  ]
 
   const products = [
     {
@@ -77,6 +166,7 @@ export default function Home() {
   ];
 
   return (
+
     <main className="min-h-screen bg-gradient-to-br from-blue-50 to-green-100 flex flex-col items-center px-4">
       {/* HERO SECTION */}
       <section className="w-full max-w-6xl bg-white rounded-xl shadow-xl p-8 mt-12 mb-8 text-center flex flex-col items-center">
@@ -158,6 +248,7 @@ export default function Home() {
           <div className="bg-white p-6 rounded-lg shadow-md">
             <p className="italic">&quot;Customer support was very helpful with my prescription needs!&quot;</p>
             <p className="mt-2 font-bold text-blue-800">— Sneha, Pokhara</p>
+
           </div>
         </div>
       </section>
@@ -198,4 +289,5 @@ export default function Home() {
       </footer>
     </main>
   );
+
 }

@@ -33,36 +33,46 @@ export default function LoginPage() {
   }
 
   return (
+
     <main className="min-h-screen flex items-center justify-center bg-gradient-to-r from-slate-900 to-slate-700">
       <div className="bg-white p-8 rounded-xl shadow-xl w-full max-w-md">
         <h1 className="text-3xl font-bold mb-6 text-slate-800 text-center">Login</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">Email</label>
+
             <input
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="you@example.com"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Password</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1 group-hover:text-blue-500 transition">
+              Password
+            </label>
+
             <input
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="••••••••"
             />
           </div>
           {error && (
-            <p className="text-sm text-red-600 bg-red-100 px-3 py-2 rounded-lg">{error}</p>
+            <p className="text-red-600 text-sm text-center">{error}</p>
           )}
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:opacity-80 transition-opacity duration-200"
+            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 hover:shadow-md transition duration-300"
+
           >
             Login
           </button>

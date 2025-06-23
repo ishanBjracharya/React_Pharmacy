@@ -75,6 +75,7 @@ export default function CartPage() {
   }
 
   return (
+
     <main className="max-w-4xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6 text-slate-800">🛒 Your Cart</h1>
       {cart.length === 0 ? (
@@ -137,6 +138,7 @@ export default function CartPage() {
           </div>
         </>
       )}
+
     </main>
   )
 }

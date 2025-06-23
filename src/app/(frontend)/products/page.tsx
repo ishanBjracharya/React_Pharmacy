@@ -40,9 +40,15 @@ export default function ProductsPage() {
   }, []);
   console.log(products);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <div className="min-h-screen flex items-center justify-center text-gray-500">
+        Loading...
+      </div>
+    );
 
   return (
+
       <main className="min-h-screen bg-gradient-to-br from-blue-50 to-green-100 py-12 px-4">
       <h1 className="text-4xl font-bold text-center text-blue-800 mb-10">Our Products</h1>
 
@@ -105,4 +111,6 @@ export default function ProductsPage() {
     </main>
   );
 }
+
   
+
