@@ -21,6 +21,7 @@
     "@payloadcms/richtext-lexical": "3.40.0",
     "@payloadcms/richtext-slate": "^3.41.0",
     "@payloadcms/ui": "3.40.0",
+    "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.2.3",
     "@tailwindcss/postcss": "^4.1.8",
     "@uploadthing/react": "^7.3.1",
@@ -29,6 +30,7 @@
     "cross-env": "^7.0.3",
     "framer-motion": "^12.18.1",
     "graphql": "^16.8.1",
+    "keen-slider": "^6.8.6",
     "lucide-react": "^0.515.0",
     "next": "15.3.0",
     "payload": "3.40.0",
@@ -37,6 +39,7 @@
     "react-dom": "19.1.0",
     "react-hook-form": "^7.58.1",
     "sharp": "0.32.6",
+    "swiper": "^11.2.8",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.8",
     "uploadthing": "^7.7.2"

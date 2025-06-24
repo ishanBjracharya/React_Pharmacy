@@ -1,112 +1,253 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import { ShoppingCart, Heart, Shield, Clock, Pill } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+
+type ProductImage = {
+  url?: string
+  filename?: string
+  alt?: string
+  width?: number
+  height?: number
+}
 
 type Product = {
   id: string
   name: string
   description: string
-  brand?: string
   price: number
+  brand: string
   inStock: number
-  sku?: string
   prescriptionRequired: boolean
-  expiryDate?: string
-  dosageForm?: string
-  strength?: string
-  tags?: { tag: string }[]
-  image?: string
-  category?: string
-  isActive: boolean
-  featured: boolean
+  expiryDate: string
+  dosageForm: string
+  strength: string
+  image: ProductImage
 }
 
-export default function ProductDetailPage() {
-  const { id } = useParams<{ id: string }>()
+export default function ProductDetails({ params }: { params: { id: string } }) {
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
-  const [added, setAdded] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const router = useRouter()
+
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
 
   useEffect(() => {
-    if (!id) return
-    fetch(`http://localhost:3000/api/products/${id}`)
-      .then(res => res.json())
-      .then(data => {
+    const fetchProduct = async () => {
+      try {
+        setLoading(true)
+        const res = await fetch(`${API_URL}/api/products/${params.id}`)
+        if (!res.ok) throw new Error('Failed to fetch product')
+        const data = await res.json()
         setProduct(data)
+      } catch (err: any) {
+        setError(err.message || 'Unknown error')
+      } finally {
         setLoading(false)
-      })
-      .catch(() => setLoading(false))
-  }, [id])
-
-  const handleAddToCart = () => {
-    if (!product) return
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]')
-    const exists = cart.find((item: any) => item.id === product.id)
-    if (!exists) {
-      cart.push({ ...product, quantity: 1 })
-      localStorage.setItem('cart', JSON.stringify(cart))
-      setAdded(true)
-    } else {
-      exists.quantity += 1
-      localStorage.setItem('cart', JSON.stringify(cart))
-      setAdded(true)
+      }
     }
+
+    fetchProduct()
+  }, [params.id, API_URL])
+
+  const getImageSrc = () => {
+    if (!product?.image) return ''
+    if (product.image.url) {
+      return product.image.url.startsWith('http') 
+        ? product.image.url 
+        : `${API_URL}${product.image.url}`
+    }
+    if (product.image.filename) {
+      return `${API_URL}/api/media/file/${product.image.filename}`
+    }
+    return ''
   }
 
-  if (loading) return <p>Loading...</p>
-  if (!product) return <p>Product not found.</p>
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString)
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+  }
+
+  const addToCart = () => {
+    if (!product) return
+    
+    const storedCart = JSON.parse(localStorage.getItem('cart') || '[]')
+    const existing = storedCart.find((item: any) => item.id === product.id)
+
+    const updatedCart = existing
+      ? storedCart.map((item: any) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        )
+      : [
+          ...storedCart,
+          {
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            quantity: 1,
+            image: getImageSrc(),
+            prescriptionRequired: product.prescriptionRequired
+          },
+        ]
+
+    localStorage.setItem('cart', JSON.stringify(updatedCart))
+    router.push('/cart')
+  }
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-10">
+        <p className="text-red-500 mb-4">Error: {error}</p>
+        <button 
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Try Again
+        </button>
+      </div>
+    )
+  }
+
+  if (!product) {
+    return <p className="text-center py-10">Product not found</p>
+  }
+
+  const imageSrc = getImageSrc()
 
   return (
-    <main className="max-w-5xl mx-auto p-6">
-      <div className="flex flex-col md:flex-row gap-8">
-        {/* Left: Product Image */}
-        {product.image && (
-          <div className="flex-shrink-0">
-            <Image
-              src={product.image}
-              alt={product.name}
-              width={500}
-              height={500}
-              className="rounded-lg shadow-lg object-contain"
-            />
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="flex flex-col lg:flex-row gap-8">
+        {/* Image Section - Left Side */}
+        <div className="lg:w-1/2">
+          <div className="bg-white rounded-xl shadow-sm p-4 sticky top-4">
+            <div className="relative w-full h-96">
+              {imageSrc ? (
+                <Image
+                  src={imageSrc}
+                  alt={product.image?.alt || product.name}
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400">
+                  No Image Available
+                </div>
+              )}
+            </div>
           </div>
-        )}
+        </div>
 
-        {/* Right: Product Info */}
-        <div className="flex-1">
-          <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
-          <p className="text-gray-700 mb-4">{product.description}</p>
+        {/* Content Section - Right Side */}
+        <div className="lg:w-1/2">
+          <div className="bg-white rounded-xl shadow-sm p-6">
+            {/* Product Header */}
+            <div className="flex justify-between items-start mb-4">
+              <h1 className="text-2xl font-bold text-gray-900">{product.name}</h1>
+              {product.prescriptionRequired && (
+                <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full flex items-center">
+                  <Shield className="h-3 w-3 mr-1" />
+                  Prescription Required
+                </span>
+              )}
+            </div>
 
-          <div className="space-y-2 text-gray-800">
-            <div>💵 <strong>Price:</strong> ${product.price}</div>
-            <div>📦 <strong>Stock:</strong> {product.inStock}</div>
-            {product.brand && <div><strong>Brand:</strong> {product.brand}</div>}
-            {product.sku && <div><strong>SKU:</strong> {product.sku}</div>}
-            {product.prescriptionRequired && (
-              <div className="text-red-600 font-semibold">⚠️ Prescription Required</div>
-            )}
-            {product.expiryDate && <div><strong>Expiry:</strong> {product.expiryDate}</div>}
-            {product.dosageForm && <div><strong>Dosage Form:</strong> {product.dosageForm}</div>}
-            {product.strength && <div><strong>Strength:</strong> {product.strength}</div>}
-            {product.category && <div><strong>Category:</strong> {product.category}</div>}
-            {product.tags && product.tags.length > 0 && (
-              <div><strong>Tags:</strong> {product.tags.map(t => t.tag).join(', ')}</div>
-            )}
+            {/* Brand and Rating */}
+            <div className="flex items-center mb-6">
+              <span className="text-sm text-gray-600">Brand: {product.brand}</span>
+            </div>
+
+            {/* Price and Stock */}
+            <div className="mb-6">
+              <p className="text-3xl font-bold text-blue-600 mb-2">
+                Rs. {product.price.toFixed(2)}
+              </p>
+              <p className={`text-sm ${product.inStock > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                {product.inStock > 0 ? `${product.inStock} in stock` : 'Out of stock'}
+              </p>
+            </div>
+
+            {/* Product Details */}
+            <div className="mb-6">
+              <h2 className="text-lg font-semibold mb-2">Product Details</h2>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="flex items-center">
+                  <Pill className="h-4 w-4 mr-2 text-gray-500" />
+                  <span>Strength: {product.strength}</span>
+                </div>
+                <div className="flex items-center">
+                  <Clock className="h-4 w-4 mr-2 text-gray-500" />
+                  <span>Dosage: {product.dosageForm}</span>
+                </div>
+                <div className="flex items-center">
+                  <Clock className="h-4 w-4 mr-2 text-gray-500" />
+                  <span>Expires: {formatDate(product.expiryDate)}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Description */}
+            <div className="mb-8">
+              <h2 className="text-lg font-semibold mb-2">Description</h2>
+              <p className="text-gray-700">{product.description}</p>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button
+                onClick={addToCart}
+                disabled={product.inStock <= 0}
+                className={`flex-1 py-3 px-6 rounded-lg font-medium flex items-center justify-center ${
+                  product.inStock <= 0
+                    ? 'bg-gray-400 cursor-not-allowed'
+                    : 'bg-blue-600 hover:bg-blue-700 text-white'
+                }`}
+              >
+                <ShoppingCart className="h-5 w-5 mr-2" />
+                Add to Cart
+              </button>
+              <button className="flex-1 py-3 px-6 border border-gray-300 rounded-lg font-medium flex items-center justify-center hover:bg-gray-50">
+                <Heart className="h-5 w-5 mr-2 text-gray-500" />
+                Save for Later
+              </button>
+            </div>
           </div>
 
-          <button
-            onClick={handleAddToCart}
-            disabled={added}
-            className={`mt-6 px-6 py-2 rounded-lg text-white font-semibold ${
-              added ? 'bg-green-500 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
-            }`}
-          >
-            {added ? '✔ Added to Cart' : '🛒 Add to Cart'}
-          </button>
+          {/* Additional Information */}
+          <div className="mt-8 bg-white rounded-xl shadow-sm p-6">
+            <h2 className="text-lg font-semibold mb-4">Additional Information</h2>
+            <div className="space-y-4">
+              <div>
+                <h3 className="font-medium text-gray-900">Storage Instructions</h3>
+                <p className="text-gray-600">Store at room temperature away from moisture and heat.</p>
+              </div>
+              <div>
+                <h3 className="font-medium text-gray-900">Safety Information</h3>
+                <p className="text-gray-600">
+                  Keep out of reach of children. Consult your doctor before use if pregnant or breastfeeding.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </main>
+    </div>
   )
 }

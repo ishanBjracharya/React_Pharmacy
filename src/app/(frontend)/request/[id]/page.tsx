@@ -3,6 +3,11 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { RichText } from '@payloadcms/richtext-lexical/react'
+import { Badge } from '@/components/ui/badge'
+import { Loader2 } from 'lucide-react'
+import Image from 'next/image'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 
 export default function RequestPage() {
   const params = useParams()
@@ -11,7 +16,6 @@ export default function RequestPage() {
   const [request, setRequest] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
-  // Comments state
   const [comments, setComments] = useState<any[]>([])
   const [commentLoading, setCommentLoading] = useState(true)
   const [author, setAuthor] = useState('')
@@ -19,28 +23,19 @@ export default function RequestPage() {
   const [submitting, setSubmitting] = useState(false)
   const [message, setMessage] = useState('')
 
-  // Update status state
-  const [newStatus, setNewStatus] = useState('')
-  const [updateStatusMessage, setUpdateStatusMessage] = useState('')
-  const [updatingStatus, setUpdatingStatus] = useState(false)
-
-  // Fetch request
   useEffect(() => {
     if (!id) return
-    fetch(`http://localhost:3000/api/requests/${id}?depth=2`, { cache: 'no-store' })
+    fetch(`http://localhost:3000/api/requests/${id}?depth=2`)
       .then(res => res.json())
       .then(data => {
         setRequest(data)
-        setNewStatus(data?.status || '')
         setLoading(false)
       })
       .catch(() => setLoading(false))
   }, [id])
 
-  // Fetch comments
   useEffect(() => {
     if (!id) return
-    setCommentLoading(true)
     fetch(`http://localhost:3000/api/comments?where[product][equals]=${id}`)
       .then(res => res.json())
       .then(data => {
@@ -50,7 +45,6 @@ export default function RequestPage() {
       .catch(() => setCommentLoading(false))
   }, [id, submitting])
 
-  // Post comment
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitting(true)
@@ -60,6 +54,7 @@ export default function RequestPage() {
       setSubmitting(false)
       return
     }
+
     try {
       const res = await fetch('http://localhost:3000/api/comments', {
         method: 'POST',
@@ -79,119 +74,100 @@ export default function RequestPage() {
     setSubmitting(false)
   }
 
-  // Update request status
-  const handleUpdateStatus = async () => {
-    if (!newStatus) return
-    setUpdatingStatus(true)
-    setUpdateStatusMessage('')
-    try {
-      const res = await fetch(`http://localhost:3000/api/requests/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: newStatus }),
-      })
-      if (res.ok) {
-        const updated = await res.json()
-        setRequest(updated)
-        setUpdateStatusMessage('Status updated successfully!')
-      } else {
-        setUpdateStatusMessage('Failed to update status.')
-      }
-    } catch (error) {
-      setUpdateStatusMessage('Failed to update status.')
-    }
-    setUpdatingStatus(false)
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen text-gray-500">
+        <Loader2 className="h-5 w-5 mr-2 animate-spin" /> Loading request...
+      </div>
+    )
   }
 
-  if (loading) return <p>Loading...</p>
-  if (!request) return <p>No request found.</p>
+  if (!request) {
+    return <div className="text-center py-12 text-gray-600">No request found.</div>
+  }
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'pending':
+        return <Badge className="bg-amber-100 text-amber-800">Pending</Badge>
+      case 'in-progress':
+        return <Badge className="bg-blue-100 text-blue-800">In Progress</Badge>
+      case 'completed':
+        return <Badge className="bg-emerald-100 text-emerald-800">Completed</Badge>
+      case 'cancelled':
+        return <Badge className="bg-red-100 text-red-800">Cancelled</Badge>
+      default:
+        return <Badge variant="outline">Unknown</Badge>
+    }
+  }
 
   return (
-    <div className="text-black">
-      <strong>Request Number:</strong> {request.requestNumber} <br />
-      <strong>Status:</strong> {request.status} <br />
-      {request.photo?.url && (
-        <img src={request.photo.url} alt="Request Photo" style={{ maxWidth: 200, margin: '8px 0' }} />
-      )}
-      <div>
-        <strong>Description:</strong>
-        <RichText data={request.description} />
-      </div>
-
-      {/* Update Request Status */}
-      <div className="mt-6">
-        <h3 className="font-semibold mb-2">Update Request Status</h3>
-        <select
-          value={newStatus}
-          onChange={(e) => setNewStatus(e.target.value)}
-          className="border px-2 py-1 rounded mr-2"
-          disabled={updatingStatus}
-        >
-          <option value="">Select status</option>
-          <option value="pending">Pending</option>
-          <option value="approved">Approved</option>
-          <option value="rejected">Rejected</option>
-          <option value="completed">Completed</option>
-        </select>
-        <button
-          onClick={handleUpdateStatus}
-          disabled={updatingStatus}
-          className="bg-green-600 text-white px-4 py-2 rounded"
-        >
-          {updatingStatus ? 'Updating...' : 'Update Status'}
-        </button>
-        {updateStatusMessage && (
-          <p className={`mt-2 ${updateStatusMessage.includes('success') ? 'text-green-600' : 'text-red-500'}`}>
-            {updateStatusMessage}
-          </p>
+    <div className="max-w-4xl mx-auto py-10 px-4 space-y-10">
+      <div className="bg-white shadow-lg rounded-xl p-6 space-y-6">
+        <h1 className="text-2xl font-bold text-gray-800">{request.requestName}</h1>
+        <div className="flex items-center gap-4">
+          <span className="text-sm text-gray-500">Status:</span>
+          {getStatusBadge(request.status)}
+        </div>
+        {request.photo?.url && (
+          <div className="relative w-full h-64 rounded-lg overflow-hidden border">
+            <Image
+              src={request.photo.url}
+              alt="Request"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+          </div>
         )}
+        <div className="prose max-w-none">
+          <RichText data={request.description} />
+        </div>
       </div>
 
-      {/* Comment Section */}
-      <div className="mt-10">
-        <h2 className="text-lg font-semibold mb-2">Comments</h2>
+      <div className="bg-white shadow-md rounded-xl p-6">
+        <h2 className="text-xl font-semibold mb-4">Comments</h2>
         {commentLoading ? (
-          <p>Loading comments...</p>
+          <p className="text-sm text-gray-500">Loading comments...</p>
         ) : comments.length === 0 ? (
-          <p>No comments yet.</p>
+          <p className="text-sm text-gray-500">No comments yet.</p>
         ) : (
-          <ul>
-            {comments.map((comment) => (
-              <li key={comment.id} className="mb-4 border-b pb-2">
-                <strong>{comment.author}</strong>{' '}
-                <span className="text-xs text-gray-500">
-                  {comment.createdAt && new Date(comment.createdAt).toLocaleString()}
-                </span>
-                <div>{comment.content}</div>
+          <ul className="space-y-4">
+            {comments.map(comment => (
+              <li key={comment.id} className="border-b pb-2">
+                <div className="text-sm font-semibold">{comment.author}</div>
+                <div className="text-xs text-gray-500">
+                  {new Date(comment.createdAt).toLocaleString()}
+                </div>
+                <p className="text-sm">{comment.content}</p>
               </li>
             ))}
           </ul>
         )}
 
-        <form onSubmit={handleSubmit} className="mt-4 space-y-2">
-          <input
-            type="text"
+        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+          <Input
             placeholder="Your name"
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
-            className="border rounded px-2 py-1 w-full"
             disabled={submitting}
           />
           <textarea
             placeholder="Your comment"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="border rounded px-2 py-1 w-full"
+            rows={3}
+            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
             disabled={submitting}
           />
-          {message && <div className={message.includes('success') ? 'text-green-600' : 'text-red-500'}>{message}</div>}
-          <button
-            type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded"
-            disabled={submitting}
-          >
+          {message && (
+            <div className={`text-sm ${message.includes('submitted') ? 'text-green-600' : 'text-red-500'}`}>
+              {message}
+            </div>
+          )}
+          <Button type="submit" disabled={submitting}>
             {submitting ? 'Submitting...' : 'Add Comment'}
-          </button>
+          </Button>
         </form>
       </div>
     </div>
