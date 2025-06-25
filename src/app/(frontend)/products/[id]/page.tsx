@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+
+import { useParams } from 'next/navigation'
+
 import { ShoppingCart, Heart, Shield, Clock, Pill } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
@@ -27,19 +30,19 @@ type Product = {
   image: ProductImage
 }
 
-export default function ProductDetails({ params }: { params: { id: string } }) {
+export default function ProductDetails() {
+  const params = useParams()
+  const id = params?.id
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
-
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         setLoading(true)
-        const res = await fetch(`${API_URL}/api/products/${params.id}`)
+        const res = await fetch(`http://localhost:3000/api/products/${id}`)
         if (!res.ok) throw new Error('Failed to fetch product')
         const data = await res.json()
         setProduct(data)
@@ -51,17 +54,17 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
     }
 
     fetchProduct()
-  }, [params.id, API_URL])
+  }, [params.id])
 
   const getImageSrc = () => {
     if (!product?.image) return ''
     if (product.image.url) {
-      return product.image.url.startsWith('http') 
-        ? product.image.url 
-        : `${API_URL}${product.image.url}`
+      return product.image.url.startsWith('http')
+        ? product.image.url
+        : `http://localhost:3000/${product.image.url}`
     }
     if (product.image.filename) {
-      return `${API_URL}/api/media/file/${product.image.filename}`
+      return `http://localhost:3000/api/media/file/${product.image.filename}`
     }
     return ''
   }
@@ -71,21 +74,19 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
     return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
     })
   }
 
   const addToCart = () => {
     if (!product) return
-    
+
     const storedCart = JSON.parse(localStorage.getItem('cart') || '[]')
     const existing = storedCart.find((item: any) => item.id === product.id)
 
     const updatedCart = existing
       ? storedCart.map((item: any) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item,
         )
       : [
           ...storedCart,
@@ -95,7 +96,7 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
             price: product.price,
             quantity: 1,
             image: getImageSrc(),
-            prescriptionRequired: product.prescriptionRequired
+            prescriptionRequired: product.prescriptionRequired,
           },
         ]
 
@@ -105,7 +106,7 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
+      <div className="flex justify-center items-center h-64 text-black">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     )
@@ -115,9 +116,9 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
     return (
       <div className="text-center py-10">
         <p className="text-red-500 mb-4">Error: {error}</p>
-        <button 
+        <button
           onClick={() => window.location.reload()}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          className="px-4 py-2 bg-blue-600 text-black rounded hover:bg-blue-700"
         >
           Try Again
         </button>
@@ -132,20 +133,14 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
   const imageSrc = getImageSrc()
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-black">
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Image Section - Left Side */}
         <div className="lg:w-1/2">
           <div className="bg-white rounded-xl shadow-sm p-4 sticky top-4">
             <div className="relative w-full h-96">
               {imageSrc ? (
-                <Image
-                  src={imageSrc}
-                  alt={product.image?.alt || product.name}
-                  fill
-                  className="object-contain"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
+                <img src={imageSrc} alt="image" className="object-contain" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400">
                   No Image Available
@@ -217,7 +212,7 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
                 className={`flex-1 py-3 px-6 rounded-lg font-medium flex items-center justify-center ${
                   product.inStock <= 0
                     ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-blue-600 hover:bg-blue-700 text-white'
+                    : 'bg-blue-600 hover:bg-blue-700 text-black'
                 }`}
               >
                 <ShoppingCart className="h-5 w-5 mr-2" />
@@ -236,12 +231,15 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
             <div className="space-y-4">
               <div>
                 <h3 className="font-medium text-gray-900">Storage Instructions</h3>
-                <p className="text-gray-600">Store at room temperature away from moisture and heat.</p>
+                <p className="text-gray-600">
+                  Store at room temperature away from moisture and heat.
+                </p>
               </div>
               <div>
                 <h3 className="font-medium text-gray-900">Safety Information</h3>
                 <p className="text-gray-600">
-                  Keep out of reach of children. Consult your doctor before use if pregnant or breastfeeding.
+                  Keep out of reach of children. Consult your doctor before use if pregnant or
+                  breastfeeding.
                 </p>
               </div>
             </div>

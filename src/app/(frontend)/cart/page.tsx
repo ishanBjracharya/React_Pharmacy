@@ -127,10 +127,9 @@ export default function CartPage() {
                     <div className="flex gap-4">
                       <div className="relative w-24 h-24 flex-shrink-0">
                         {item.image ? (
-                          <Image
+                          <img
                             src={item.image}
                             alt={item.name}
-                            fill
                             className="object-contain rounded-lg bg-slate-100"
                           />
                         ) : (
