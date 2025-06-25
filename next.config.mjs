@@ -3,7 +3,7 @@ import { withPayload } from '@payloadcms/next/withPayload'
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['localhost', '127.0.0.1', 'utfs.io'], // add IP in case you use it
+        domains: ['utfs.io', '4jvt4vl423.ufs.sh'], // add IP in case you use it
     },
 }
 

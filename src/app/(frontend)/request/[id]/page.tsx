@@ -5,19 +5,27 @@ import { useParams } from 'next/navigation'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import { Badge } from '@/components/ui/badge'
 import { Loader2 } from 'lucide-react'
-import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+
+type Request = {
+  id: string
+  requestName: string
+  status: 'pending' | 'in-progress' | 'completed' | 'cancelled' | string
+  photo?: string
+  description?: string
+}
 
 export default function RequestPage() {
   const params = useParams()
   const id = typeof params === 'object' && 'id' in params ? params.id : undefined
 
-  const [request, setRequest] = useState<any>(null)
+  const [request, setRequest] = useState<Request>({ id: '', requestName: '', status: 'pending' })
   const [loading, setLoading] = useState(true)
 
   const [comments, setComments] = useState<any[]>([])
   const [commentLoading, setCommentLoading] = useState(true)
+
   const [author, setAuthor] = useState('')
   const [content, setContent] = useState('')
   const [submitting, setSubmitting] = useState(false)
@@ -26,8 +34,8 @@ export default function RequestPage() {
   useEffect(() => {
     if (!id) return
     fetch(`http://localhost:3000/api/requests/${id}?depth=2`)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         setRequest(data)
         setLoading(false)
       })
@@ -37,8 +45,8 @@ export default function RequestPage() {
   useEffect(() => {
     if (!id) return
     fetch(`http://localhost:3000/api/comments?where[product][equals]=${id}`)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         setComments(data.docs || [])
         setCommentLoading(false)
       })
@@ -50,7 +58,7 @@ export default function RequestPage() {
     setSubmitting(true)
     setMessage('')
     if (!author || !content) {
-      setMessage('Please fill all fields.')
+      setMessage('All fields required.')
       setSubmitting(false)
       return
     }
@@ -62,90 +70,76 @@ export default function RequestPage() {
         body: JSON.stringify({ product: id, author, content }),
       })
       if (res.ok) {
-        setMessage('Comment submitted!')
         setAuthor('')
         setContent('')
+        setMessage('Comment submitted!')
       } else {
-        setMessage('Failed to submit comment.')
+        setMessage('Error submitting comment.')
       }
     } catch {
-      setMessage('Failed to submit comment.')
+      setMessage('Error submitting comment.')
+    } finally {
+      setSubmitting(false)
     }
-    setSubmitting(false)
   }
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen text-gray-500">
-        <Loader2 className="h-5 w-5 mr-2 animate-spin" /> Loading request...
+      <div className="flex justify-center items-center h-screen">
+        <Loader2 className="animate-spin mr-2 text-black" /> Loading request...
       </div>
     )
   }
 
-  if (!request) {
-    return <div className="text-center py-12 text-gray-600">No request found.</div>
-  }
+  if (!request) return <div className="text-center mt-10">Request not found.</div>
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'pending':
-        return <Badge className="bg-amber-100 text-amber-800">Pending</Badge>
-      case 'in-progress':
-        return <Badge className="bg-blue-100 text-blue-800">In Progress</Badge>
-      case 'completed':
-        return <Badge className="bg-emerald-100 text-emerald-800">Completed</Badge>
-      case 'cancelled':
-        return <Badge className="bg-red-100 text-red-800">Cancelled</Badge>
-      default:
-        return <Badge variant="outline">Unknown</Badge>
+  const getStatusBadge = (
+    status: 'pending' | 'in-progress' | 'completed' | 'cancelled' | string,
+  ) => {
+    const variants: Record<'pending' | 'in-progress' | 'completed' | 'cancelled', string> = {
+      pending: 'bg-amber-100 text-amber-800',
+      'in-progress': 'bg-blue-100 text-blue-800',
+      completed: 'bg-emerald-100 text-emerald-800',
+      cancelled: 'bg-red-100 text-red-800',
     }
+    return (
+      <Badge className={variants[status as keyof typeof variants] || 'bg-gray-100 text-gray-700'}>
+        {status}
+      </Badge>
+    )
   }
+  console.log('Request:', request)
 
   return (
-    <div className="max-w-4xl mx-auto py-10 px-4 space-y-10">
-      <div className="bg-white shadow-lg rounded-xl p-6 space-y-6">
-        <h1 className="text-2xl font-bold text-gray-800">{request.requestName}</h1>
-        <div className="flex items-center gap-4">
-          <span className="text-sm text-gray-500">Status:</span>
-          {getStatusBadge(request.status)}
-        </div>
-        {request.photo?.url && (
-          <div className="relative w-full h-64 rounded-lg overflow-hidden border">
-            <Image
-              src={request.photo.url}
-              alt="Request"
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
+    <div className="max-w-3xl mx-auto py-10 px-4 space-y-8">
+      <div className="bg-white p-6 rounded-lg shadow space-y-4">
+        <h1 className="text-2xl font-bold text-black">{request.requestName}</h1>
+        {getStatusBadge(request.status)}
+        {request.photo && (
+          <div className="relative w-full h-64 rounded overflow-hidden border">
+            <img src={request.photo} alt="Photo" className="object-cover" />
           </div>
         )}
-        <div className="prose max-w-none">
-          <RichText data={request.description} />
-        </div>
+        <div className="prose max-w-none">{request.description}</div>
       </div>
 
-      <div className="bg-white shadow-md rounded-xl p-6">
-        <h2 className="text-xl font-semibold mb-4">Comments</h2>
+      <div className="bg-white p-6 rounded-lg shadow space-y-4 text-black">
+        <h2 className="text-lg font-semibold">Comments</h2>
         {commentLoading ? (
-          <p className="text-sm text-gray-500">Loading comments...</p>
+          <p>Loading comments...</p>
         ) : comments.length === 0 ? (
-          <p className="text-sm text-gray-500">No comments yet.</p>
+          <p>No comments yet.</p>
         ) : (
-          <ul className="space-y-4">
-            {comments.map(comment => (
-              <li key={comment.id} className="border-b pb-2">
-                <div className="text-sm font-semibold">{comment.author}</div>
-                <div className="text-xs text-gray-500">
-                  {new Date(comment.createdAt).toLocaleString()}
-                </div>
-                <p className="text-sm">{comment.content}</p>
-              </li>
-            ))}
-          </ul>
+          comments.map((c) => (
+            <div key={c.id} className="border-t pt-2">
+              <strong>{c.author}</strong>
+              <div className="text-sm text-gray-500">{new Date(c.createdAt).toLocaleString()}</div>
+              <p>{c.content}</p>
+            </div>
+          ))
         )}
 
-        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-2">
           <Input
             placeholder="Your name"
             value={author}
@@ -153,15 +147,17 @@ export default function RequestPage() {
             disabled={submitting}
           />
           <textarea
-            placeholder="Your comment"
             value={content}
             onChange={(e) => setContent(e.target.value)}
             rows={3}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
+            placeholder="Your comment"
+            className="w-full border rounded px-3 py-2"
             disabled={submitting}
           />
           {message && (
-            <div className={`text-sm ${message.includes('submitted') ? 'text-green-600' : 'text-red-500'}`}>
+            <div
+              className={`text-sm ${message.includes('submitted') ? 'text-green-600' : 'text-red-600'}`}
+            >
               {message}
             </div>
           )}

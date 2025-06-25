@@ -111,20 +111,21 @@ function Footer() {
           {/* Contact Info */}
           <div className="space-y-4">
             <h4 className="text-lg font-semibold text-gray-800">Contact Us</h4>
-            <div className="space-y-3 text-gray-500">
+            <div className="space-y-3 text-gray-500 ">
               <a 
                 href="tel:+9779812345678" 
                 className="flex items-start gap-3 group"
                 target="_blank" 
                 rel="noopener noreferrer"
               >
-                <div className="p-2 bg-blue-50 rounded-lg text-blue-600 group-hover:bg-blue-100 transition-colors duration-200">
+                <div className="p-2 bg-blue-50 rounded-lg text-blue-600 group-hover:bg-blue-100 transition-colors duration-200 flex items-center gap-2">
                   <Phone className="h-4 w-4" />
-                </div>
-                <div>
-                  <p className="font-medium text-gray-700">Call Us</p>
+                   <div>
+               
                   <p className="text-sm">+977 9812345678</p>
                 </div>
+                </div>
+               
               </a>
               
               <a 
@@ -133,13 +134,13 @@ function Footer() {
                 target="_blank" 
                 rel="noopener noreferrer"
               >
-                <div className="p-2 bg-blue-50 rounded-lg text-blue-600 group-hover:bg-blue-100 transition-colors duration-200">
+                <div className="p-2 bg-blue-50 rounded-lg text-blue-600 group-hover:bg-blue-100 transition-colors duration-200 flex items-center gap-2">
                   <Mail className="h-4 w-4" />
-                </div>
-                <div>
-                  <p className="font-medium text-gray-700">Email Us</p>
+                     <div>
                   <p className="text-sm">contact@pharmacare.com</p>
                 </div>
+                </div>
+             
               </a>
               
               <a 
@@ -148,13 +149,13 @@ function Footer() {
                 target="_blank" 
                 rel="noopener noreferrer"
               >
-                <div className="p-2 bg-blue-50 rounded-lg text-blue-600 group-hover:bg-blue-100 transition-colors duration-200">
+                <div className="p-2 bg-blue-50 rounded-lg text-blue-600 group-hover:bg-blue-100 transition-colors duration-200 flex items-center gap-2">
                   <MapPin className="h-4 w-4" />
-                </div>
-                <div>
-                  <p className="font-medium text-gray-700">Location</p>
+                    <div>
                   <p className="text-sm">123 Health St, Kathmandu, Nepal</p>
                 </div>
+                </div>
+              
               </a>
             </div>
           </div>

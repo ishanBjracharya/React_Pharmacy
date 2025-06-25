@@ -47,7 +47,7 @@ export default function CartPage() {
 
   const handleQuantityChange = (id: string, delta: number) => {
     const updatedCart = cart.map((item) =>
-      item.id === id ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item
+      item.id === id ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item,
     )
     setCart(updatedCart)
     localStorage.setItem('cart', JSON.stringify(updatedCart))
@@ -57,11 +57,11 @@ export default function CartPage() {
 
   const getImageSrc = (product: CartProduct) => {
     if (!product.image) return ''
-    
+
     // Handle different image URL formats
     if (product.image.url) {
-      return product.image.url.startsWith('http') 
-        ? product.image.url 
+      return product.image.url.startsWith('http')
+        ? product.image.url
         : `http://localhost:3000${product.image.url}`
     }
     if (product.image.filename) {
@@ -75,7 +75,7 @@ export default function CartPage() {
     return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
     })
   }
 
@@ -100,7 +100,7 @@ export default function CartPage() {
             price: item.price,
             quantity: item.quantity,
             image: getImageSrc(item),
-            prescriptionRequired: item.prescriptionRequired
+            prescriptionRequired: item.prescriptionRequired,
           })),
           total,
         }),
@@ -119,7 +119,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 text-black">
       <div className="max-w-4xl mx-auto p-6">
         <div className="flex items-center gap-3 mb-8">
           <ShoppingCart className="h-8 w-8 text-slate-700" />
@@ -291,7 +291,7 @@ export default function CartPage() {
 
                   <Button
                     onClick={handleBuy}
-                    disabled={buying || cart.some(item => item.prescriptionRequired)}
+                    disabled={buying || cart.some((item) => item.prescriptionRequired)}
                     className="w-full h-12 text-base font-semibold"
                     size="lg"
                   >
@@ -308,7 +308,7 @@ export default function CartPage() {
                     )}
                   </Button>
 
-                  {cart.some(item => item.prescriptionRequired) && (
+                  {cart.some((item) => item.prescriptionRequired) && (
                     <div className="text-sm text-red-600 p-3 bg-red-50 rounded-lg">
                       <Shield className="h-4 w-4 inline mr-2" />
                       Prescription required for some items. Please consult a doctor before purchase.
@@ -318,9 +318,9 @@ export default function CartPage() {
                   {message && (
                     <div
                       className={`p-3 rounded-lg text-sm font-medium ${
-                        message.includes("✅")
-                          ? "bg-green-50 text-green-700 border border-green-200"
-                          : "bg-red-50 text-red-700 border border-red-200"
+                        message.includes('✅')
+                          ? 'bg-green-50 text-green-700 border border-green-200'
+                          : 'bg-red-50 text-red-700 border border-red-200'
                       }`}
                     >
                       {message}

@@ -74,12 +74,6 @@ export default function Navbar() {
               </button>
               {loginDropdown && (
                 <div className="absolute right-0 mt-2 bg-white text-slate-900 rounded-md shadow-md py-2 z-10 w-40">
-                  <Link
-                    href="/profile"
-                    className="flex items-center px-4 py-2 hover:bg-slate-100 transition"
-                  >
-                    <User className="w-4 h-4 mr-2" /> My Profile
-                  </Link>
                   <button
                     onClick={handleLogout}
                     className="w-full text-left flex items-center px-4 py-2 hover:bg-slate-100 transition"
