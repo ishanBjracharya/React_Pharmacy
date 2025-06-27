@@ -229,6 +229,7 @@ export interface Transaction {
   }[];
   total: number;
   status: 'pending' | 'completed' | 'failed';
+  deliveryDate?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -449,6 +450,7 @@ export interface TransactionsSelect<T extends boolean = true> {
       };
   total?: T;
   status?: T;
+  deliveryDate?: T;
   updatedAt?: T;
   createdAt?: T;
 }
