@@ -4,7 +4,7 @@ import './styles.css'
 import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin'
 import { extractRouterConfig } from 'uploadthing/server'
 import { ourFileRouter } from '../../app/api/uploadthing/core'
-import Navbar from "../(frontend)/compoentns/Navbar/Navbar"
+import Navbar from '../(frontend)/compoentns/Navbar/Navbar'
 import { Facebook, Instagram, Twitter, Mail, Phone, MapPin, Heart } from 'lucide-react'
 import Link from 'next/link'
 
@@ -23,31 +23,32 @@ function Footer() {
               PharmaCare
             </h3>
             <p className="text-gray-500 text-sm leading-relaxed">
-              Your trusted partner in healthcare delivery. Fast, reliable, and discreet medication services.
+              Your trusted partner in healthcare delivery. Fast, reliable, and discreet medication
+              services.
             </p>
-            
+
             {/* Social Buttons */}
             <div className="flex gap-4 pt-2">
               {[
-                { 
-                  icon: <Facebook className="h-5 w-5" />, 
-                  color: 'hover:bg-blue-100 hover:text-blue-600', 
-                  href: 'https://facebook.com' 
+                {
+                  icon: <Facebook className="h-5 w-5" />,
+                  color: 'hover:bg-blue-100 hover:text-blue-600',
+                  href: 'https://facebook.com',
                 },
-                { 
-                  icon: <Instagram className="h-5 w-5" />, 
-                  color: 'hover:bg-pink-100 hover:text-pink-600', 
-                  href: 'https://instagram.com' 
+                {
+                  icon: <Instagram className="h-5 w-5" />,
+                  color: 'hover:bg-pink-100 hover:text-pink-600',
+                  href: 'https://instagram.com',
                 },
-                { 
-                  icon: <Twitter className="h-5 w-5" />, 
-                  color: 'hover:bg-sky-100 hover:text-sky-600', 
-                  href: 'https://twitter.com' 
+                {
+                  icon: <Twitter className="h-5 w-5" />,
+                  color: 'hover:bg-sky-100 hover:text-sky-600',
+                  href: 'https://twitter.com',
                 },
-                { 
-                  icon: <Mail className="h-5 w-5" />, 
-                  color: 'hover:bg-red-100 hover:text-red-600', 
-                  href: 'mailto:contact@pharmacare.com' 
+                {
+                  icon: <Mail className="h-5 w-5" />,
+                  color: 'hover:bg-red-100 hover:text-red-600',
+                  href: 'mailto:contact@pharmacare.com',
                 },
               ].map((item, index) => (
                 <a
@@ -71,7 +72,6 @@ function Footer() {
               {[
                 { name: 'Home', href: '/' },
                 { name: 'Shop', href: '/products' },
-              
               ].map((link) => (
                 <li key={link.name}>
                   <Link
@@ -112,50 +112,46 @@ function Footer() {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold text-gray-800">Contact Us</h4>
             <div className="space-y-3 text-gray-500 ">
-              <a 
-                href="tel:+9779812345678" 
+              <a
+                href="tel:+9779812345678"
                 className="flex items-start gap-3 group"
-                target="_blank" 
+                target="_blank"
                 rel="noopener noreferrer"
               >
                 <div className="p-2 bg-blue-50 rounded-lg text-blue-600 group-hover:bg-blue-100 transition-colors duration-200 flex items-center gap-2">
                   <Phone className="h-4 w-4" />
-                   <div>
-               
-                  <p className="text-sm">+977 9812345678</p>
+                  <div>
+                    <p className="text-sm">+977 9812345678</p>
+                  </div>
                 </div>
-                </div>
-               
               </a>
-              
-              <a 
-                href="mailto:contact@pharmacare.com" 
+
+              <a
+                href="mailto:contact@pharmacare.com"
                 className="flex items-start gap-3 group"
-                target="_blank" 
+                target="_blank"
                 rel="noopener noreferrer"
               >
                 <div className="p-2 bg-blue-50 rounded-lg text-blue-600 group-hover:bg-blue-100 transition-colors duration-200 flex items-center gap-2">
                   <Mail className="h-4 w-4" />
-                     <div>
-                  <p className="text-sm">contact@pharmacare.com</p>
+                  <div>
+                    <p className="text-sm">contact@pharmacare.com</p>
+                  </div>
                 </div>
-                </div>
-             
               </a>
-              
-              <a 
-                href="https://maps.google.com?q=123+Health+St,+Kathmandu,+Nepal" 
+
+              <a
+                href="https://maps.google.com?q=123+Health+St,+Kathmandu,+Nepal"
                 className="flex items-start gap-3 group"
-                target="_blank" 
+                target="_blank"
                 rel="noopener noreferrer"
               >
                 <div className="p-2 bg-blue-50 rounded-lg text-blue-600 group-hover:bg-blue-100 transition-colors duration-200 flex items-center gap-2">
                   <MapPin className="h-4 w-4" />
-                    <div>
-                  <p className="text-sm">123 Health St, Kathmandu, Nepal</p>
+                  <div>
+                    <p className="text-sm">123 Health St, Kathmandu, Nepal</p>
+                  </div>
                 </div>
-                </div>
-              
               </a>
             </div>
           </div>
@@ -169,15 +165,27 @@ function Footer() {
           <div className="text-gray-500">
             &copy; {new Date().getFullYear()} PharmaCare. All rights reserved.
           </div>
-          
+
           <div className="flex gap-6">
-            <Link href="/privacy" passHref className="text-gray-500 hover:text-blue-600 transition-colors duration-200">
+            <Link
+              href="/privacy"
+              passHref
+              className="text-gray-500 hover:text-blue-600 transition-colors duration-200"
+            >
               Privacy Policy
             </Link>
-            <Link href="/terms" passHref className="text-gray-500 hover:text-blue-600 transition-colors duration-200">
+            <Link
+              href="/terms"
+              passHref
+              className="text-gray-500 hover:text-blue-600 transition-colors duration-200"
+            >
               Terms of Service
             </Link>
-            <Link href="/faq" passHref className="text-gray-500 hover:text-blue-600 transition-colors duration-200">
+            <Link
+              href="/faq"
+              passHref
+              className="text-gray-500 hover:text-blue-600 transition-colors duration-200"
+            >
               FAQ
             </Link>
           </div>
@@ -196,13 +204,13 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         <title>PharmaCare</title>
         <meta name="description" content="Your trusted healthcare partner" />
       </head>
-      <body className="bg-gradient-to-br from-blue-50 to-green-100 min-h-screen flex flex-col">
-        <Navbar />
-        <NextSSRPlugin
-          routerConfig={extractRouterConfig(ourFileRouter)}
-        />
-        <main className="flex-1">{children}</main>
-        <Footer />
+      <body className="bg-white min-h-screen">
+        <div>
+          <Navbar />
+          <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+          {children}
+          <Footer />
+        </div>
       </body>
     </html>
   )

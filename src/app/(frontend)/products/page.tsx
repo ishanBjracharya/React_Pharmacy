@@ -115,7 +115,7 @@ export default function ProductsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="  flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin h-12 w-12 mx-auto border-4 border-blue-500 rounded-full border-t-transparent" />
           <p className="mt-4 text-lg text-black">Loading our products...</p>
@@ -126,7 +126,7 @@ export default function ProductsPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-black">
+      <div className="  flex items-center justify-center text-black">
         <div className="text-center max-w-md p-6 bg-red-50 rounded-lg">
           <h2 className="text-xl font-bold text-red-600 mb-2">Error loading products</h2>
           <p className="text-gray-700 mb-4">{error}</p>
@@ -142,7 +142,7 @@ export default function ProductsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12  text-black">
+    <div className="  bg-gray-50 py-12  text-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
         <div className="text-center mb-12">

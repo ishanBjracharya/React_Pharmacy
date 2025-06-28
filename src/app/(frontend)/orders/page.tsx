@@ -119,7 +119,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 text-black">
+    <div className="  bg-gradient-to-br from-slate-50 to-slate-100 text-black">
       <div className="max-w-4xl mx-auto p-6">
         <div className="flex items-center gap-3 mb-8">
           <ShoppingCart className="h-8 w-8 text-slate-700" />

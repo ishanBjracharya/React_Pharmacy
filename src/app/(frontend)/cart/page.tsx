@@ -22,10 +22,6 @@ export default function CartPage() {
   const [cart, setCart] = useState<CartProduct[]>([])
   const [buying, setBuying] = useState(false)
   const [message, setMessage] = useState('')
-  const [showPaymentModal, setShowPaymentModal] = useState(false)
-  const [cardNumber, setCardNumber] = useState('')
-  const [expiry, setExpiry] = useState('')
-  const [cvv, setCvv] = useState('')
 
   useEffect(() => {
     if (message.includes('✅')) {
@@ -98,7 +94,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="  bg-gradient-to-br from-slate-50 to-slate-100">
       <div className="max-w-4xl mx-auto p-6">
         <div className="flex items-center gap-3 mb-8">
           <ShoppingCart className="h-8 w-8 text-slate-700" />
@@ -243,7 +239,7 @@ export default function CartPage() {
                   </div>
 
                   <Button
-                    onClick={() => setShowPaymentModal(true)}
+                    onClick={handleBuy}
                     disabled={buying || cart.some((item) => item.prescriptionRequired)}
                     className="w-full h-12 text-base font-semibold"
                   >
@@ -284,51 +280,6 @@ export default function CartPage() {
       }`}
           >
             {message}
-          </div>
-        )}
-
-        {/* Dummy Payment Modal */}
-        {showPaymentModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-lg w-full max-w-md shadow-xl space-y-4">
-              <h2 className="text-xl font-semibold text-slate-800">Enter Payment Details</h2>
-              <input
-                type="text"
-                placeholder="Card Number"
-                value={cardNumber}
-                onChange={(e) => setCardNumber(e.target.value)}
-                className="w-full border px-4 py-2 rounded-lg text-slate-700"
-              />
-              <div className="flex gap-2 text-slate-600">
-                <input
-                  type="text"
-                  placeholder="MM/YY"
-                  value={expiry}
-                  onChange={(e) => setExpiry(e.target.value)}
-                  className="w-full border px-4 py-2 rounded-lg"
-                />
-                <input
-                  type="text"
-                  placeholder="CVV"
-                  value={cvv}
-                  onChange={(e) => setCvv(e.target.value)}
-                  className="w-full border px-4 py-2 rounded-lg"
-                />
-              </div>
-              <div className="flex justify-end gap-2">
-                <Button variant="outline" onClick={() => setShowPaymentModal(false)}>
-                  Cancel
-                </Button>
-                <Button
-                  onClick={async () => {
-                    setShowPaymentModal(false)
-                    await handleBuy()
-                  }}
-                >
-                  Pay Rs. {total.toFixed(2)}
-                </Button>
-              </div>
-            </div>
           </div>
         )}
       </div>

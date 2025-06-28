@@ -21,39 +21,45 @@ type Transaction = {
 export default function ViewOrderPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [loading, setLoading] = useState(true)
-  const [email, setEmail] = useState<string | null>(null)
+  const [email, setEmail] = useState<string | null>()
   const [error, setError] = useState<string | null>(null)
+  const [user, setUser] = useState<{ name: string; email: string } | null>(null)
 
   // Get user email from localStorage on mount
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedEmail = localStorage.getItem('user-email')
-      setEmail(storedEmail)
-      if (!storedEmail) {
-        setLoading(false)
-        setError('Please log in to view your orders.')
+    const storedUser = localStorage.getItem('user')
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser))
+      } catch (err) {
+        console.error('Invalid user data in storage.')
       }
     }
   }, [])
+
+  // FIX: Set email when user changes
+  useEffect(() => {
+    setEmail(user?.email || null)
+  }, [user])
 
   // Fetch transactions when email is available
   useEffect(() => {
     if (!email) return
 
     setLoading(true)
-    fetch(`http://localhost:3000/api/transactions?where[email][equals]=${encodeURIComponent(email)}`)
-      .then(res => {
+    fetch(`http://localhost:3000/api/transactions?where[email][equals]=${email}`)
+      .then((res) => {
         if (!res.ok) {
           throw new Error(`Error fetching orders: ${res.status}`)
         }
         return res.json()
       })
-      .then(data => {
+      .then((data) => {
         console.log('Fetched transactions:', data.docs)
         setTransactions(data.docs || [])
         setLoading(false)
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('Fetch error:', err)
         setError('Failed to load your orders. Please try again later.')
         setLoading(false)
@@ -73,7 +79,9 @@ export default function ViewOrderPage() {
   }
 
   if (!email) {
-    return <p className="text-center text-red-500 mt-10 text-lg">Please log in to view your orders.</p>
+    return (
+      <p className="text-center text-red-500 mt-10 text-lg">Please log in to view your orders.</p>
+    )
   }
 
   if (transactions.length === 0) {
@@ -81,13 +89,13 @@ export default function ViewOrderPage() {
   }
 
   return (
-    <main className="bg-gray-50 min-h-screen max-w-5xl mx-auto px-6 py-10">
+    <div className=" max-w-5xl mx-auto px-6 py-10 bg-white">
       <h1 className="text-4xl font-bold text-slate-800 mb-8 text-center">🧾 My Orders</h1>
       <div className="space-y-8">
-        {transactions.map(tx => (
+        {transactions.map((tx) => (
           <div
             key={tx.id}
-            className="bg-white shadow-md hover:shadow-lg transition-shadow border border-slate-200 rounded-2xl p-6"
+            className=" shadow-md hover:shadow-lg transition-shadow border border-slate-200 rounded-2xl p-6"
           >
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
               <div>
@@ -101,15 +109,15 @@ export default function ViewOrderPage() {
                   tx.status === 'completed'
                     ? 'bg-green-100 text-green-700'
                     : tx.status === 'pending'
-                    ? 'bg-yellow-100 text-yellow-700'
-                    : 'bg-red-100 text-red-700'
+                      ? 'bg-yellow-100 text-yellow-700'
+                      : 'bg-red-100 text-red-700'
                 }`}
               >
                 {tx.status}
               </span>
             </div>
 
-            <div className="divide-y divide-gray-100 mb-4">
+            <div className=" mb-4 bg-white">
               {tx.cart.map((item, idx) => (
                 <div key={idx} className="py-3 flex justify-between items-center text-gray-700">
                   <span className="text-sm sm:text-base">
@@ -137,6 +145,6 @@ export default function ViewOrderPage() {
           </div>
         ))}
       </div>
-    </main>
+    </div>
   )
 }

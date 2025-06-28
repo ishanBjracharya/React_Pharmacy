@@ -1,9 +1,9 @@
-import Head from 'next/head';
-import Image from 'next/image';
+import Head from 'next/head'
+import Image from 'next/image'
 
 export default function AboutUs() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="  bg-gray-50">
       <Head>
         <title>About Us | Paramay</title>
         <meta name="description" content="Learn about Paramay's mission, vision, and values" />
@@ -14,15 +14,30 @@ export default function AboutUs() {
         <div className="container mx-auto px-4 py-5 flex justify-between items-center">
           <div className="text-2xl font-bold text-indigo-600">Paramay</div>
           <nav className="hidden md:flex space-x-8">
-            <a href="#" className="text-gray-800 hover:text-indigo-600 font-medium">Home</a>
-            <a href="#" className="text-indigo-600 font-medium">About</a>
-            <a href="#" className="text-gray-800 hover:text-indigo-600 font-medium">Services</a>
-            <a href="#" className="text-gray-800 hover:text-indigo-600 font-medium">Products</a>
-            <a href="#" className="text-gray-800 hover:text-indigo-600 font-medium">Contact</a>
+            <a href="#" className="text-gray-800 hover:text-indigo-600 font-medium">
+              Home
+            </a>
+            <a href="#" className="text-indigo-600 font-medium">
+              About
+            </a>
+            <a href="#" className="text-gray-800 hover:text-indigo-600 font-medium">
+              Services
+            </a>
+            <a href="#" className="text-gray-800 hover:text-indigo-600 font-medium">
+              Products
+            </a>
+            <a href="#" className="text-gray-800 hover:text-indigo-600 font-medium">
+              Contact
+            </a>
           </nav>
           <button className="md:hidden">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
             </svg>
           </button>
         </div>
@@ -33,7 +48,8 @@ export default function AboutUs() {
         <div className="container mx-auto px-4">
           <h1 className="text-4xl md:text-5xl font-extrabold mb-6">About Paramay</h1>
           <p className="text-xl max-w-2xl mx-auto opacity-90">
-            Innovating solutions for a better tomorrow. Discover our journey, values, and the team behind our success.
+            Innovating solutions for a better tomorrow. Discover our journey, values, and the team
+            behind our success.
           </p>
         </div>
       </section>
@@ -47,14 +63,14 @@ export default function AboutUs() {
               From humble beginnings to industry leaders - our journey of innovation and growth
             </p>
           </div>
-          
+
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="md:w-1/2">
               <div className="rounded-xl overflow-hidden shadow-xl">
-                <Image 
-                  src="/about-story.jpg" 
-                  alt="Paramay team working" 
-                  width={600} 
+                <Image
+                  src="/about-story.jpg"
+                  alt="Paramay team working"
+                  width={600}
                   height={400}
                   className="w-full h-auto"
                 />
@@ -63,12 +79,14 @@ export default function AboutUs() {
             <div className="md:w-1/2">
               <h3 className="text-2xl font-semibold text-gray-800 mb-4">Founded in 2015</h3>
               <p className="text-gray-600 mb-6">
-                Paramay started as a small team of passionate engineers with a vision to revolutionize the tech industry. 
-                What began in a garage has now grown into a multinational corporation with offices in 12 countries.
+                Paramay started as a small team of passionate engineers with a vision to
+                revolutionize the tech industry. What began in a garage has now grown into a
+                multinational corporation with offices in 12 countries.
               </p>
               <p className="text-gray-600 mb-6">
-                Our breakthrough came in 2018 with the launch of our flagship product, which set new standards in 
-                performance and user experience. Today, we continue to push boundaries with cutting-edge solutions.
+                Our breakthrough came in 2018 with the launch of our flagship product, which set new
+                standards in performance and user experience. Today, we continue to push boundaries
+                with cutting-edge solutions.
               </p>
               <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium transition duration-300">
                 Learn More About Our Journey
@@ -87,31 +105,53 @@ export default function AboutUs() {
               Our guiding principles that drive everything we do
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 gap-12">
             <div className="bg-gray-50 p-8 rounded-xl shadow-sm hover:shadow-md transition duration-300">
               <div className="bg-indigo-100 w-16 h-16 rounded-lg flex items-center justify-center mb-6">
-                <svg className="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                <svg
+                  className="w-8 h-8 text-indigo-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
                 </svg>
               </div>
               <h3 className="text-2xl font-semibold text-gray-800 mb-4">Our Mission</h3>
               <p className="text-gray-600">
-                To empower businesses and individuals through innovative technology solutions that simplify complexity, 
-                enhance productivity, and drive sustainable growth in an ever-evolving digital landscape.
+                To empower businesses and individuals through innovative technology solutions that
+                simplify complexity, enhance productivity, and drive sustainable growth in an
+                ever-evolving digital landscape.
               </p>
             </div>
-            
+
             <div className="bg-gray-50 p-8 rounded-xl shadow-sm hover:shadow-md transition duration-300">
               <div className="bg-emerald-100 w-16 h-16 rounded-lg flex items-center justify-center mb-6">
-                <svg className="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                <svg
+                  className="w-8 h-8 text-emerald-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                  />
                 </svg>
               </div>
               <h3 className="text-2xl font-semibold text-gray-800 mb-4">Our Vision</h3>
               <p className="text-gray-600">
-                To be the global leader in transformative technology solutions, recognized for our commitment to excellence, 
-                sustainability, and creating meaningful impact that shapes the future of industries and improves lives worldwide.
+                To be the global leader in transformative technology solutions, recognized for our
+                commitment to excellence, sustainability, and creating meaningful impact that shapes
+                the future of industries and improves lives worldwide.
               </p>
             </div>
           </div>
@@ -127,44 +167,57 @@ export default function AboutUs() {
               The foundation of our culture and decision-making
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                title: "Innovation",
-                icon: "M13 10V3L4 14h7v7l9-11h-7z",
-                desc: "We challenge the status quo and pioneer new approaches to solve complex problems."
+                title: 'Innovation',
+                icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+                desc: 'We challenge the status quo and pioneer new approaches to solve complex problems.',
               },
               {
-                title: "Integrity",
-                icon: "M12 15l5-5-5-5m-7 0l5 5-5 5m14-5l-5-5 5-5",
-                desc: "We uphold the highest ethical standards in all our interactions and decisions."
+                title: 'Integrity',
+                icon: 'M12 15l5-5-5-5m-7 0l5 5-5 5m14-5l-5-5 5-5',
+                desc: 'We uphold the highest ethical standards in all our interactions and decisions.',
               },
               {
-                title: "Collaboration",
-                icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z",
-                desc: "We believe in the power of teamwork and diverse perspectives to achieve exceptional results."
+                title: 'Collaboration',
+                icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z',
+                desc: 'We believe in the power of teamwork and diverse perspectives to achieve exceptional results.',
               },
               {
-                title: "Sustainability",
-                icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
-                desc: "We design solutions that benefit both our clients and the planet for generations to come."
+                title: 'Sustainability',
+                icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+                desc: 'We design solutions that benefit both our clients and the planet for generations to come.',
               },
               {
-                title: "Excellence",
-                icon: "M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z",
-                desc: "We pursue quality in everything we do, setting benchmarks for our industry."
+                title: 'Excellence',
+                icon: 'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z',
+                desc: 'We pursue quality in everything we do, setting benchmarks for our industry.',
               },
               {
-                title: "Customer Focus",
-                icon: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z",
-                desc: "We listen, understand, and deliver solutions that exceed our clients' expectations."
-              }
+                title: 'Customer Focus',
+                icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z',
+                desc: "We listen, understand, and deliver solutions that exceed our clients' expectations.",
+              },
             ].map((value, index) => (
-              <div key={index} className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
+              <div
+                key={index}
+                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300"
+              >
                 <div className="bg-indigo-100 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                  <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={value.icon} />
+                  <svg
+                    className="w-6 h-6 text-indigo-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d={value.icon}
+                    />
                   </svg>
                 </div>
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">{value.title}</h3>
@@ -179,43 +232,43 @@ export default function AboutUs() {
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Meet Our Leadership</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Meet Our Leadership
+            </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               The brilliant minds driving Paramay&apos;s vision forward
             </p>
           </div>
-          
+
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {[
               {
-                name: "Alex Johnson",
-                role: "CEO & Founder",
-                image: "/team-1.jpg"
+                name: 'Alex Johnson',
+                role: 'CEO & Founder',
+                image: '/team-1.jpg',
               },
               {
-                name: "Sarah Chen",
-                role: "CTO",
-                image: "/team-2.jpg"
+                name: 'Sarah Chen',
+                role: 'CTO',
+                image: '/team-2.jpg',
               },
               {
-                name: "Michael Rodriguez",
-                role: "CFO",
-                image: "/team-3.jpg"
+                name: 'Michael Rodriguez',
+                role: 'CFO',
+                image: '/team-3.jpg',
               },
               {
-                name: "Priya Patel",
-                role: "VP of Product",
-                image: "/team-4.jpg"
-              }
+                name: 'Priya Patel',
+                role: 'VP of Product',
+                image: '/team-4.jpg',
+              },
             ].map((member, index) => (
-              <div key={index} className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-300">
+              <div
+                key={index}
+                className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-300"
+              >
                 <div className="h-64 relative">
-                  <Image 
-                    src={member.image}
-                    alt={member.name}
-                    layout="fill"
-                    objectFit="cover"
-                  />
+                  <Image src={member.image} alt={member.name} layout="fill" objectFit="cover" />
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-semibold text-gray-800">{member.name}</h3>
@@ -224,12 +277,17 @@ export default function AboutUs() {
               </div>
             ))}
           </div>
-          
+
           <div className="text-center mt-12">
             <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-lg font-medium transition duration-300 inline-flex items-center">
               View Full Team
               <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
           </div>
@@ -261,16 +319,33 @@ export default function AboutUs() {
             <div>
               <h3 className="text-xl font-bold mb-4">Paramay</h3>
               <p className="text-gray-400">
-                Innovating solutions for a better tomorrow. We&apos;re committed to excellence and sustainable growth.
+                Innovating solutions for a better tomorrow. We&apos;re committed to excellence and
+                sustainable growth.
               </p>
             </div>
             <div>
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-400 hover:text-white transition">Home</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition">About</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition">Services</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition">Careers</a></li>
+                <li>
+                  <a href="#" className="text-gray-400 hover:text-white transition">
+                    Home
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-gray-400 hover:text-white transition">
+                    About
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-gray-400 hover:text-white transition">
+                    Services
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-gray-400 hover:text-white transition">
+                    Careers
+                  </a>
+                </li>
               </ul>
             </div>
             <div>
@@ -308,5 +383,5 @@ export default function AboutUs() {
         </div>
       </footer>
     </div>
-  );
+  )
 }

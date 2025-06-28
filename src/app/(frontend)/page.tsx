@@ -102,7 +102,7 @@ export default function Home() {
     return <p className="text-center mt-10 text-lg text-red-500">No homepage content found.</p>
   console.log(products)
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 to-green-100">
+    <main className="  bg-gradient-to-br from-blue-50 to-green-100">
       <Slider />
 
       {/* Featured Products */}
